@@ -32,10 +32,10 @@ if __name__ == "__main__":
 dataIN = []
 GnDIN = []
 GIN = []
-dataIN = pd.read_csv("./{}/pdf.txt".format(sys.argv[1]),header = None,sep=",")
+dataIN = pd.read_csv("./dataset/{}/pdf.txt".format(sys.argv[1]),header = None,sep=",")
 
-cellcateg  = pd.read_csv("./{}/cell_categ_exc.txt".format(sys.argv[1]),header = None,sep=",")
-layercateg = pd.read_csv("./{}/layer_categ.txt".format(sys.argv[1]),header = None,sep=",")
+cellcateg  = pd.read_csv("./dataset/{}/cell_categ_exc.txt".format(sys.argv[1]),header = None,sep=",")
+layercateg = pd.read_csv("./dataset/{}/layer_categ.txt".format(sys.argv[1]),header = None,sep=",")
 categ = (cellcateg)*8+(7-layercateg)
 
 GnDIN = nx.from_pandas_adjacency(dataIN)
@@ -103,7 +103,7 @@ GlobalEfficiencyPD = pd.Series(GlobalEfficiency,index = RF.columns)
 LocalEfficiencyPD = pd.Series(LocalEfficiency,index = RF.columns)
 participationPD = pd.Series(participation,index = RF.columns)
 
-# our new metric from network embedding analysis
+#Indirect-adjacent degree
 def _our_metrics2(G,nodes=None, weight=None):
     avg1 = {}
     avg2 = {}
@@ -146,7 +146,7 @@ def _our_metrics2(G,nodes=None, weight=None):
 NewMetric = _our_metrics2(G)
 NewMetricPD = pd.Series(NewMetric,index = RF.columns)
 
-#function to calculate new metrics
+#Nth neighbor hub ratio
 def _new_metric_threshold(G,steps = 2, tops=0.2, nodes = None, weight=None):
     hubs = {}
     nnodes = {}
@@ -190,17 +190,16 @@ RF = pd.concat([RF,NewMetricTH_4],axis=1)
 
 RF = RF.T
 
-# RF.index = ['Degree','PageRank','Betweenness','SubgraphCentrality','CoreNumber','ClusterCoefficients','Closenness','GlobalEfficiency','LocalEfficiency','Participation','NewMetric_Previous','NetwMetric_steps1','NetwMetric_steps2','NetwMetric_steps3','NetwMetric_steps4',"PCA1","PCA2","PCA3","PCA4","PCA5","PCA6"]
 RF.index = ['Degree','InDegree','PageRank','Betweenness','SubgraphCentrality','CoreNumber','ClusterCoefficients','Closenness','GlobalEfficiency','LocalEfficiency','Participation','Non-adjacent degree','1st NeighHubRatio','2nd NeighHubRatio','3rd NeighHubRatio','4th NeighHubRatio']
 print(RF)
 
-RF.to_csv("./{}/Results_of_Network_analysis_SizeSame2_mod.txt".format(sys.argv[1]),sep="\t")
+RF.to_csv("./dataset/{}/Results_of_Network_analysis_SizeSame2_mod.txt".format(sys.argv[1]),sep="\t")
 
 RF = RF.T
-RF.to_csv("./{}/Results_of_Network_analysis_SizeSame2_viz.txt".format(sys.argv[1]),sep="\t")
+RF.to_csv("./dataset/{}/Results_of_Network_analysis_SizeSame2_viz.txt".format(sys.argv[1]),sep="\t")
 
-dataIN.to_csv("./{}/pdf_sorted.txt".format(sys.argv[1]),header = None,sep=",")
+dataIN.to_csv("./dataset/{}/pdf_sorted.txt".format(sys.argv[1]),header = None,sep=",")
 Ge = nx.to_edgelist(G)
 Ge = pd.DataFrame(Ge)
 Ge = Ge.drop([2],axis=1)
-Ge.to_csv("./{}/list_pdf_sorted.txt".format(sys.argv[1]),header = None,sep=",")
+Ge.to_csv("./dataset/{}/list_pdf_sorted.txt".format(sys.argv[1]),header = None,sep=",")

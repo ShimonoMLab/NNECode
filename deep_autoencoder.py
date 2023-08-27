@@ -27,7 +27,7 @@ import sys
 numlayer = int(sys.argv[1])
 nummiddle = int(sys.argv[2])
 
-dirda = "../../../data/180731_190806_dateset/" + "l" + str(numlayer) + "_m" + str(nummiddle) + "/"
+dirda = "./" + "l" + str(numlayer) + "_m" + str(nummiddle) + "/"
 shutil.rmtree(dirda)
 os.mkdir(dirda)
 
@@ -35,7 +35,7 @@ from keras import backend as K
 tf.random.set_seed(1234)
 
 kf = KFold(n_splits=5,shuffle=False)
-data_list = ["180731001","190423001","190514002","190604001","190611001","190617002","190617004","190806002","180731002","190514001","190514003","190604002","190617001","190617003","190806001"]
+data_list = ["sample1","sample2","sample3","sample4","sample5"]
 kf.get_n_splits(data_list)
 data_loss_value = pd.DataFrame()
 data_loss_value_test = pd.DataFrame()
@@ -49,9 +49,9 @@ for train_index, test_index in kf.split(data_list):
    data_train = pd.DataFrame()
 
    for data in list_train:
-       directoryda = "../../../../Sharing_SizeSame/{}/pdf.txt".format(data)
-       cellcateg  = pd.read_csv("../../../../Sharing_SizeSame/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
-       layercateg = pd.read_csv("../../../../Sharing_SizeSame/{}/layer_categ.txt".format(data),header = None,sep=",")
+       directoryda = "./dataset/{}/pdf.txt".format(data)
+       cellcateg  = pd.read_csv("./dataset/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
+       layercateg = pd.read_csv("./dataset/{}/layer_categ.txt".format(data),header = None,sep=",")
        categ = (cellcateg)*8+(7-layercateg) # inh (deep-->surface)-->exc(deep-->surface)
        data1 = pd.read_csv(directoryda,header=None,sep=",")
        data1["CCat"] = categ[0].values.T
@@ -72,9 +72,9 @@ for train_index, test_index in kf.split(data_list):
 
    data_valid = pd.DataFrame()
    for data in list_valid:
-       directoryda = "../../../../Sharing_SizeSame/{}/pdf.txt".format(data)
-       cellcateg  = pd.read_csv("../../../../Sharing_SizeSame/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
-       layercateg = pd.read_csv("../../../../Sharing_SizeSame/{}/layer_categ.txt".format(data),header = None,sep=",")
+       directoryda = "./dataset/{}/pdf.txt".format(data)
+       cellcateg  = pd.read_csv("./dataset/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
+       layercateg = pd.read_csv("./dataset/{}/layer_categ.txt".format(data),header = None,sep=",")
        categ = (cellcateg)*8+(7-layercateg) # inh (deep-->surface)-->exc(deep-->surface)
        data1 = pd.read_csv(directoryda,header=None,sep=",")
        data1["CCat"] = categ[0].values.T
@@ -96,9 +96,9 @@ for train_index, test_index in kf.split(data_list):
 
    data_test = pd.DataFrame()
    for data in list_test:
-       directoryda = "../../../../Sharing_SizeSame/{}/pdf.txt".format(data)
-       cellcateg  = pd.read_csv("../../../../Sharing_SizeSame/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
-       layercateg = pd.read_csv("../../../../Sharing_SizeSame/{}/layer_categ.txt".format(data),header = None,sep=",")
+       directoryda = "./dataset/{}/pdf.txt".format(data)
+       cellcateg  = pd.read_csv("./dataset/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
+       layercateg = pd.read_csv("./dataset/{}/layer_categ.txt".format(data),header = None,sep=",")
        categ = (cellcateg)*8+(7-layercateg) # inh (deep-->surface)-->exc(deep-->surface)
        data1 = pd.read_csv(directoryda,header=None,sep=",")
        data1["CCat"] = categ[0].values.T
@@ -263,9 +263,9 @@ for train_index, test_index in kf.split(data_list):
        data_loss_value_test = pd.concat([data_loss_value_test,pd.Series(lossda.numpy())])
 
    for data in list_test:
-       directoryda = "../../../../Sharing_SizeSame/{}/pdf.txt".format(data)
-       cellcateg  = pd.read_csv("../../../../Sharing_SizeSame/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
-       layercateg = pd.read_csv("../../../../Sharing_SizeSame/{}/layer_categ.txt".format(data),header = None,sep=",")
+       directoryda = "./dataset/{}/pdf.txt".format(data)
+       cellcateg  = pd.read_csv("./dataset/{}/cell_categ_exc.txt".format(data),header = None,sep=",")
+       layercateg = pd.read_csv("./dataset/{}/layer_categ.txt".format(data),header = None,sep=",")
        categ = (cellcateg)*8+(7-layercateg) # inh (deep-->surface)-->exc(deep-->surface)
        data1 = pd.read_csv(directoryda,header=None,sep=",")
        data1["CCat"] = categ[0].values.T
